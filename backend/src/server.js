@@ -9,6 +9,7 @@ dotenv.config()  // needed inorder to access the env variables
 connectDB();
 
 const app = express();
+
 app.use("/api/notes", notesRouter);
 app.listen(5000, () => {
   console.log("Server started at PORT: 5000");
