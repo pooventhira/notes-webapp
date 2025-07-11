@@ -1,4 +1,4 @@
-import express from "express";  
+import express, { json } from "express";  
 
 import notesRouter from "./routes/notesRouter.js";
 import { connectDB } from "./config/db.js";
@@ -10,6 +10,7 @@ connectDB();
 
 const app = express();
 
+app.use(express.json());  // middleware
 app.use("/api/notes", notesRouter);
 app.listen(5000, () => {
   console.log("Server started at PORT: 5000");
