@@ -3,6 +3,7 @@ import express, { json } from "express";
 import notesRouter from "./routes/notesRouter.js";
 import { connectDB } from "./config/db.js";
 import dotenv from "dotenv";
+import rateLimiter from "./middleware/rateLimiter.js";
 
 dotenv.config()  // needed inorder to access the env variables
 
@@ -10,7 +11,8 @@ connectDB();
 
 const app = express();
 
-app.use(express.json());  // middleware
+app.use(express.json());  // middleware parses JSON data from the req.body
+app.use(rateLimiter)
 app.use("/api/notes", notesRouter);
 app.listen(5000, () => {
   console.log("Server started at PORT: 5000");
@@ -42,3 +44,7 @@ app.listen(5000, () => {
 // terminal -> npm i dotenv
 //    *) i  --->   shorthand for 'install'
 //    *) dotenv  --->  allows to use .env file and environment variables
+
+// terminal -> npm i @upstash/ratelimit @upstash/redis
+//    *) upstash/ratelimit  --->  adds ratelimiter package
+//    *) upstash/redis  --->  adds redis serverless database package
