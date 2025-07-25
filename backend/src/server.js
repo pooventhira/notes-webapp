@@ -7,15 +7,15 @@ import rateLimiter from "./middleware/rateLimiter.js";
 
 dotenv.config()  // needed inorder to access the env variables
 
-connectDB();
-
 const app = express();
 
 app.use(express.json());  // middleware parses JSON data from the req.body
 app.use(rateLimiter)
 app.use("/api/notes", notesRouter);
-app.listen(5000, () => {
-  console.log("Server started at PORT: 5000");
+connectDB().then(() => {
+    app.listen(5000, () => {
+    console.log("Server started at PORT: 5000");
+  });
 });
 
 // terminal -> npm init -y
