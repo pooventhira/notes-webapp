@@ -33,3 +33,7 @@ createRoot(document.getElementById('root')).render(
 
 // terminal -> npm install daisyui
 //    *) daisyui  --->  faster, cleaner, easier tailwindcss development components
+
+// terminal -> npm i lucide-react axois
+//    *) lucide-react  --->  for react icons
+//    *) axios  --->  for api connectivity
