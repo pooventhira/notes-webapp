@@ -1,16 +1,25 @@
-import express, { json } from "express";  
+import express from "express";  
+import dotenv from "dotenv";
+import cors from "cors";
 
 import notesRouter from "./routes/notesRouter.js";
 import { connectDB } from "./config/db.js";
-import dotenv from "dotenv";
 import rateLimiter from "./middleware/rateLimiter.js";
 
 dotenv.config()  // needed inorder to access the env variables
 
 const app = express();
 
-app.use(express.json());  // middleware parses JSON data from the req.body
-app.use(rateLimiter)
+// middleware that helps configure Cross-OriginResourceSharing[CORS]
+app.use(
+  cors({
+    origin: "http://localhost:5173"
+  }));
+// middleware parses JSON data from the req.body
+app.use(express.json());
+// custom middleware that adds ratelimite feature
+app.use(rateLimiter);
+
 app.use("/api/notes", notesRouter);
 connectDB().then(() => {
     app.listen(5000, () => {
@@ -48,3 +57,6 @@ connectDB().then(() => {
 // terminal -> npm i @upstash/ratelimit @upstash/redis
 //    *) upstash/ratelimit  --->  adds ratelimiter package
 //    *) upstash/redis  --->  adds redis serverless database package
+
+// terminal -> npm i cors
+//    *) cors  --->  helps configure and use Cross-OriginResourceSharing which inturn helps protect frontend from accessing not allowed origins.
