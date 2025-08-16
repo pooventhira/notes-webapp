@@ -16,16 +16,14 @@ const HomePage = () => {
     const fetchNotes = async () => {
       try {
         const res = await api.get("/notes");
-        console.log(res.data);
         setNotes(res.data);
         setIsRateLimited(false);
       } catch (error) {
-        console.log("Error fetching notes");
-        console.log(error.response);
+        console.error("Error fetching notes", error);
         if (error.response?.status === 429) {
           setIsRateLimited(true);
         } else {
-          console.log(error);
+          console.error("Error from Homepage component :",error);
           toast.error("Failed to load notes");
         }
       } finally {

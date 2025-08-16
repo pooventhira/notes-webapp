@@ -12,7 +12,7 @@ const CreatePage = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // get rid of the default navigation behaviour
 
     if (!title.trim() || !content.trim()) {
       toast.error("All fields are required");
@@ -29,7 +29,7 @@ const CreatePage = () => {
       toast.success("Note created successfully!");
       navigate("/");
     } catch (error) {
-      console.log("Error creating note", error);
+      console.error("Error creating note", error);
       if (error.response.status === 429) {
         toast.error("Slow down! You're creating notes too fast", {
           duration: 4000,

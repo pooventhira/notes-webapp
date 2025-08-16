@@ -1,6 +1,7 @@
 import express from "express";  
 import dotenv from "dotenv";
 import cors from "cors";
+import path from "path";
 
 import notesRouter from "./routes/notesRouter.js";
 import { connectDB } from "./config/db.js";
@@ -9,21 +10,36 @@ import rateLimiter from "./middleware/rateLimiter.js";
 dotenv.config()  // needed inorder to access the env variables
 
 const app = express();
+const PORT = process.env.PORT || 5000;
+const __dirname = path.resolve();
 
 // middleware that helps configure Cross-OriginResourceSharing[CORS]
-app.use(
-  cors({
-    origin: "http://localhost:5173"
-  }));
+if (process.env.NODE_ENV !== "production") {
+  app.use(
+    cors({
+      origin: "http://localhost:5173",
+    })
+  );
+}
 // middleware parses JSON data from the req.body
 app.use(express.json());
 // custom middleware that adds ratelimite feature
 app.use(rateLimiter);
-
+// middleware sets a default prefix route for the server
 app.use("/api/notes", notesRouter);
+
+if (process.env.NODE_ENV === "production") {
+  // 
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+  });
+}
+
 connectDB().then(() => {
-    app.listen(5000, () => {
-    console.log("Server started at PORT: 5000");
+    app.listen(PORT, () => {
+    console.log("Server started successfully!");
   });
 });
 

@@ -6,7 +6,7 @@ import api from "../lib/axios";
 
 const NoteCard = ({ note, setNotes }) => {
   const handleDelete = async (e, id) => {
-    e.preventDefault(); // get rid of the navigation behaviour
+    e.preventDefault(); // get rid of the default navigation behaviour
 
     if (!window.confirm("Are you sure you want to delete this note?")) return;
 
@@ -15,7 +15,7 @@ const NoteCard = ({ note, setNotes }) => {
       setNotes((prev) => prev.filter((note) => note._id !== id)); // to refresh the notes display section
       toast.success("Note deleted successfully");
     } catch (error) {
-      console.log("Error in handleDelete", error);
+      console.error("Error in handleDelete", error);
       toast.error("Failed to delete note");
     }
   };

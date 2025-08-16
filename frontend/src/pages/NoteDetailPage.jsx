@@ -19,7 +19,7 @@ const NoteDetailPage = () => {
         const res = await api.get(`/notes/${id}`);
         setNote(res.data);
       } catch (error) {
-        console.log("Error in fetching note", error);
+        console.error("Error in fetching note", error);
         toast.error("Failed to fetch the note");
       } finally {
         setLoading(false);
@@ -37,7 +37,7 @@ const NoteDetailPage = () => {
       toast.success("Note deleted");
       navigate("/");
     } catch (error) {
-      console.log("Error deleting the note:", error);
+      console.error("Error deleting the note:", error);
       toast.error("Failed to delete note");
     }
   };
@@ -55,7 +55,7 @@ const NoteDetailPage = () => {
       toast.success("Note updated successfully");
       navigate("/");
     } catch (error) {
-      console.log("Error saving the note:", error);
+      console.error("Error saving the note:", error);
       toast.error("Failed to update note");
     } finally {
       setSaving(false);
